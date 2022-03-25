@@ -10,9 +10,12 @@ Exercises:
 """
 
 from random import *
+from tkinter.ttk import Style
 from turtle import *
 
 from freegames import path
+
+import random
 
 car = path('car.gif')
 tiles = list(range(32)) * 2
@@ -20,6 +23,22 @@ state = {'mark': None}
 hide = [True] * 64
 tapcount = 0
 found = 0
+n=36
+
+c1=random.randint(2,7)
+c2=random.randint(2,7)
+while(c2==c1):
+    c2=random.randint(2,7)
+
+c3=random.randint(2,7)
+while(c3==c1 or c3==c2):
+    c2=random.randint(2,7)
+
+def listaAleatorios(n):
+      lista = [0]  * n
+      for i in range(n):
+          lista[i] = random.random()
+      return lista
 
 
 def square(x, y):
@@ -80,14 +99,17 @@ def draw():
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
-        goto(x + 2, y)
-        color('black')
-        write(tiles[mark], font=('Arial', 30, 'normal'))
+        #RMEV - 24/03/2022 - We fit the text to the center
+        goto(x + 26, y + 4)
+        #RMEV - 24/03/2022 - We change the color of the numbers
+        color(tiles[mark]*c1, 255-tiles[mark]*c2, 255-tiles[mark]*c3)
+        #RMEV - 24/03/2022 - We fit the text to the center
+        write(tiles[mark], font=('Arial', 20, 'normal'), align="Center")
 
     """RAVR - 24/03/22 - a message is created when you win"""
     if found == 32:
         goto(0,100)
-        color('white')
+        color("white")
         write("¡Ganador!",  align="center", font=("Arial", 30, "bold"))
 
     goto(0,210)
@@ -99,6 +121,7 @@ def draw():
 
 shuffle(tiles)
 setup(420, 420, 370, 0)
+colormode(255)
 addshape(car)
 hideturtle()
 tracer(False)
